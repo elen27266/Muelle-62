@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muelle 62 | Restaurante de Mariscos — Mérida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;900&family=Nunito:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        terracota: '#6e4634',
+                        arena: '#d6c4ae',
+                        salvia: '#acad8e',
+                        oscuro: '#201315',
+                        cobalto: '#3030cd',
+                        'arena-light': '#f0e8dd',
+                    },
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'serif'],
+                        body: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #f0e8dd;
+            color: #201315;
+            overflow-x: hidden;
+        }
+
+        /* ── WAVES ── */
+        .wave-divider svg {
+            display: block;
+        }
+
+        /* ── HERO PARALLAX ── */
+        .hero-section {
+            position: relative;
+            height: 100svh;
+            min-height: 560px;
+            overflow: hidden;
+            background: linear-gradient(160deg, #201315 0%, #6e4634 45%, #3030cd 100%);
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 25% 60%, rgba(110, 70, 52, 0.45) 0%, transparent 55%),
+                radial-gradient(circle at 75% 30%, rgba(48, 48, 205, 0.25) 0%, transparent 50%);
+        }
+
+        /* animated shimmer lines */
+        .shimmer-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(214, 196, 174, 0.3), transparent);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .shimmer-line:nth-child(1) {
+            top: 25%;
+            animation-delay: 0s;
+        }
+
+        .shimmer-line:nth-child(2) {
+            top: 50%;
+            animation-delay: 1.5s;
+        }
+
+        .shimmer-line:nth-child(3) {
+            top: 75%;
+            animation-delay: 3s;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ── NAVBAR ── */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: background .4s, box-shadow .4s;
+        }
+
+        #navbar.scrolled {
+            background: rgba(32, 19, 21, 0.96);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, .3);
+        }
+
+        .nav-link {
+            position: relative;
+            color: rgba(214, 196, 174, 0.85);
+            font-size: .8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color .3s;
+            padding-bottom: 3px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: #3030cd;
+            transition: width .3s;
+        }
+
+        .nav-link:hover {
+            color: #d6c4ae;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* hamburger */
+        .ham {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ham span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #d6c4ae;
+            border-radius: 2px;
+            transition: transform .3s, opacity .3s;
+        }
+
+        .ham.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .ham.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .ham.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: rgba(32, 19, 21, .97);
+        }
+
+        .mobile-menu.open {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu a {
+            color: #d6c4ae;
+            text-decoration: none;
+            padding: .85rem 1.5rem;
+            border-bottom: 1px solid rgba(214, 196, 174, .1);
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: .9rem;
+        }
+
+        /* ── SECTION STYLES ── */
+        .section-chip {
+            display: inline-block;
+            background: rgba(48, 48, 205, .12);
+            border: 1px solid rgba(48, 48, 205, .3);
+            color: #3030cd;
+            font-size: .68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: .3rem 1rem;
+            border-radius: 50px;
+            margin-bottom: .8rem;
+        }
+
+        .section-chip.light {
+            background: rgba(214, 196, 174, .12);
+            border-color: rgba(214, 196, 174, .3);
+            color: #d6c4ae;
+        }
+
+        .divider-bar {
+            width: 50px;
+            height: 3px;
+            border-radius: 2px;
+            background: linear-gradient(to right, #6e4634, #3030cd);
+            margin: 1rem 0 1.5rem;
+        }
+
+        .divider-bar.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ── CARDS ── */
+        .menu-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(32, 19, 21, .1);
+            transition: transform .35s, box-shadow .35s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 50px rgba(32, 19, 21, .18);
+        }
+
+        .price-badge {
+            display: inline-block;
+            background: #201315;
+            color: #d6c4ae;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: .2rem .9rem;
+            border-radius: 50px;
+        }
+
+        /* ── GALLERY ── */
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s;
+            display: block;
+        }
+        }
+
+        .gallery-item:hover img,
+        .gallery-item:hover .gallery-ph {
+            transform: scale(1.08);
+        }
+
+        .gallery-ph {
+            font-size: 3rem;
+        }
+
+        .g-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(32, 19, 21, 0);
+            transition: background .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .g-overlay svg {
+            opacity: 0;
+            transition: opacity .3s;
+            color: #d6c4ae;
+            width: 32px;
+            height: 32px;
+        }
+
+        .gallery-item:hover .g-overlay {
+            background: rgba(32, 19, 21, .5);
+        }
+
+        .gallery-item:hover .g-overlay svg {
+            opacity: 1;
+        }
+
+        /* ── MAP ── */
+        .map-container {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(32, 19, 21, .15);
+            border: 3px solid #d6c4ae;
+        }
+
+        /* ── WA FLOAT ── */
+        .wa-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 200;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 6px 24px rgba(37, 211, 102, .4);
+            animation: wa-pulse 3s ease-in-out infinite;
+            transition: transform .25s;
+        }
+
+        .wa-btn:hover {
+            transform: scale(1.12);
+            animation: none;
+        }
+
+        @keyframes wa-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 6px 24px rgba(37, 211, 102, .4);
+            }
+
+            50% {
+                box-shadow: 0 6px 40px rgba(37, 211, 102, .65);
+            }
+        }
+
+        /* ── SCROLL FADE ── */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE UTILS ── */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .ham {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .ham {
+                display: none !important;
+            }
+
+            .mobile-menu {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header id="navbar">
+        <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+            <div class="flex flex-col leading-none">
+                <span
+                    style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:900;color:#d6c4ae;letter-spacing:1px;">Muelle
+                    62</span>
+                <span
+                    style="font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:#acad8e;font-weight:600;">Restaurante
+                    de Mariscos</span>
+            </div>
+            <nav class="desktop-nav flex gap-8">
+                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#nosotros" class="nav-link">Nosotros</a>
+                <a href="#menu" class="nav-link">Menú</a>
+                <a href="#galeria" class="nav-link">Galería</a>
+                <a href="#ubicacion" class="nav-link">Ubicación</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </nav>
+            <button class="ham" id="ham" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <nav class="mobile-menu" id="mob-nav">
+            <a href="#inicio" onclick="closeMob()">Inicio</a>
+            <a href="#nosotros" onclick="closeMob()">Nosotros</a>
+            <a href="#menu" onclick="closeMob()">Menú</a>
+            <a href="#galeria" onclick="closeMob()">Galería</a>
+            <a href="#ubicacion" onclick="closeMob()">Ubicación</a>
+            <a href="#contacto" onclick="closeMob()">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-section" id="inicio">
+        <div class="hero-bg-pattern"></div>
+        <div class="shimmer-line"></div>
+        <div class="shimmer-line"></div>
+        <div class="shimmer-line"></div>
+
+        <!-- decorative anchor icon -->
+        <div
+            style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20rem;opacity:.03;user-select:none;pointer-events:none;line-height:1;">
+            ⚓</div>
+
+        <div class="relative z-10 flex items-center justify-center h-full px-6">
+            <div class="text-center" style="max-width:640px">
+                <div class="section-chip light mb-6" data-aos="fade-down" data-aos-delay="100">⚓ Mérida, Yucatán</div>
+                <h1 data-aos="fade-up" data-aos-delay="200"
+                    style="font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,10vw,7rem);font-weight:900;color:#d6c4ae;line-height:1;margin-bottom:1rem;">
+                    Muelle<br><span style="color:#3030cd;">62</span>
+                </h1>
+                <p data-aos="fade-up" data-aos-delay="350"
+                    style="color:rgba(214,196,174,.75);font-size:clamp(1rem,2.5vw,1.2rem);font-weight:300;margin-bottom:2.5rem;line-height:1.7;">
+                    El sabor auténtico del mar en cada platillo.<br>Mariscos frescos preparados con tradición.
+                </p>
+                <div data-aos="fade-up" data-aos-delay="500"
+                    style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="#menu"
+                        style="background:#3030cd;color:#d6c4ae;padding:.85rem 2rem;border-radius:6px;font-weight:700;text-decoration:none;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 20px rgba(48,48,205,.35);"
+                        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(48,48,205,.5)'"
+                        onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 20px rgba(48,48,205,.35)'">
+                        Ver Menú
+                    </a>
+                    <a href="#ubicacion"
+                        style="border:2px solid rgba(214,196,174,.4);color:#d6c4ae;padding:.85rem 2rem;border-radius:6px;font-weight:700;text-decoration:none;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;transition:border-color .3s,background .3s;"
+                        onmouseover="this.style.borderColor='#3030cd';this.style.background='rgba(48,48,205,.1)'"
+                        onmouseout="this.style.borderColor='rgba(214,196,174,.4)';this.style.background='transparent'">
+                        Cómo llegar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom wave -->
+        <div style="position:absolute;bottom:0;left:0;right:0;">
+            <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,35 C360,70 720,0 1080,35 C1260,52 1380,28 1440,35 L1440,70 L0,70 Z" fill="#f0e8dd" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- SOBRE NOSOTROS -->
+    <section id="nosotros" class="py-20 px-5" style="background:#f0e8dd">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                <!-- image side -->
+                <div class="relative" data-aos="fade-right">
+                    <img src="img/restaurante4.jpg" alt="Muelle 62"
+                        style="width:100%;height:380px;object-fit:cover;border-radius:16px;box-shadow:0 20px 60px rgba(32,19,21,.2);display:block;">
+                    <!-- floating badge -->
+                    <div
+                        style="position:absolute;bottom:-18px;right:-10px;background:#201315;color:#d6c4ae;border-radius:12px;padding:.9rem 1.4rem;box-shadow:0 8px 30px rgba(32,19,21,.35);">
+                        <div
+                            style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:900;line-height:1;color:#d6c4ae;">
+                            +10</div>
+                        <div style="font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#acad8e;">Años de
+                            experiencia</div>
+                    </div>
+                </div>
+
+                <!-- text side -->
+                <div data-aos="fade-left" data-aos-delay="150">
+                    <span class="section-chip">Nuestra historia</span>
+                    <h2
+                        style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#201315;line-height:1.1;margin-bottom:.5rem;">
+                        Un rincón de mar<br>en Mérida
+                    </h2>
+                    <div class="divider-bar"></div>
+                    <p style="color:#6e4634;line-height:1.85;margin-bottom:1rem;font-size:1.02rem;">
+                        En <strong>Muelle 62</strong> nos especializamos en ofrecer mariscos frescos preparados con el
+                        auténtico sabor del mar. Nuestro restaurante es el lugar ideal para compartir momentos
+                        especiales con familia y amigos.
+                    </p>
+                    <p style="color:#6e4634;line-height:1.85;font-size:1.02rem;">
+                        Ubicados en Pedregales de Caucel, Mérida, traemos lo mejor del Golfo de México directamente a tu
+                        mesa, cada día.
+                    </p>
+
+                    <div style="display:flex;gap:1.5rem;margin-top:2rem;flex-wrap:wrap;">
+                        <div style="border-left:3px solid #3030cd;padding-left:1rem;">
+                            <div
+                                style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:900;color:#201315;line-height:1;">
+                                100%</div>
+                            <div
+                                style="font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#acad8e;margin-top:.2rem;">
+                                Mariscos frescos</div>
+                        </div>
+                        <div style="border-left:3px solid #6e4634;padding-left:1rem;">
+                            <div
+                                style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:900;color:#201315;line-height:1;">
+                                7</div>
+                            <div
+                                style="font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#acad8e;margin-top:.2rem;">
+                                Días a la semana</div>
+                        </div>
+                        <div style="border-left:3px solid #acad8e;padding-left:1rem;">
+                            <div
+                                style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:900;color:#201315;line-height:1;">
+                                40+</div>
+                            <div
+                                style="font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#acad8e;margin-top:.2rem;">
+                                Platillos en menú</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- wave -->
+    <div style="background:#f0e8dd;line-height:0;">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,25 C480,50 960,0 1440,25 L1440,50 L0,50 Z" fill="#201315" />
+        </svg>
+    </div>
+
+    <!-- MENÚ -->
+    <section id="menu" style="background:#201315;padding:5rem 1.25rem;">
+        <div class="max-w-6xl mx-auto">
+
+            <div style="text-align:center;margin-bottom:3.5rem;" data-aos="fade-up">
+                <span class="section-chip light">Lo que ofrecemos</span>
+                <h2
+                    style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#d6c4ae;line-height:1.1;margin-top:.5rem;">
+                    Platillos Destacados
+                </h2>
+                <div class="divider-bar center" style="background:linear-gradient(to right,#d6c4ae,#3030cd);"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <div class="menu-card" data-aos="zoom-in" data-aos-delay="0">
+                    <img src="img/camarones2.jpg" alt="Camarones al Gusto"
+                        style="width:100%;height:200px;object-fit:cover;display:block;">
+                    <div style="padding:1.5rem;">
+                        <span
+                            style="display:inline-block;background:rgba(48,48,205,.1);color:#3030cd;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:.25rem .8rem;border-radius:50px;margin-bottom:.7rem;">Plato
+                            fuerte</span>
+                        <h3
+                            style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#201315;margin-bottom:.5rem;">
+                            Camarones al Gusto</h3>
+                        <p style="color:#6e4634;font-size:.93rem;line-height:1.65;margin-bottom:1.2rem;">Camarones
+                            preparados con nuestras recetas especiales: al mojo de ajo, a la diabla, empanizados y más.
+                        </p>
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <span class="price-badge">desde $180</span>
+                            <span style="font-size:.75rem;color:#acad8e;letter-spacing:1px;">MXN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card" data-aos="zoom-in" data-aos-delay="150">
+                    <img src="img/ceviche1.jpg" alt="Ceviche Fresco"
+                        style="width:100%;height:200px;object-fit:cover;display:block;">
+                    <div style="padding:1.5rem;">
+                        <span
+                            style="display:inline-block;background:rgba(172,173,142,.15);color:#6e4634;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:.25rem .8rem;border-radius:50px;margin-bottom:.7rem;">Entrada</span>
+                        <h3
+                            style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#201315;margin-bottom:.5rem;">
+                            Ceviche Fresco</h3>
+                        <p style="color:#6e4634;font-size:.93rem;line-height:1.65;margin-bottom:1.2rem;">Preparado al
+                            momento con ingredientes frescos y el auténtico sabor del mar yucateco.</p>
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <span class="price-badge">desde $160</span>
+                            <span style="font-size:.75rem;color:#acad8e;letter-spacing:1px;">MXN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="img/pulpo.jpg" alt="Pulpo a la Parrilla"
+                        style="width:100%;height:200px;object-fit:cover;display:block;">
+                    <div style="padding:1.5rem;">
+                        <span
+                            style="display:inline-block;background:rgba(110,70,52,.12);color:#6e4634;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:.25rem .8rem;border-radius:50px;margin-bottom:.7rem;">⭐
+                            Especial</span>
+                        <h3
+                            style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#201315;margin-bottom:.5rem;">
+                            Pulpo a la Parrilla</h3>
+                        <p style="color:#6e4634;font-size:.93rem;line-height:1.65;margin-bottom:1.2rem;">Uno de los
+                            favoritos de nuestros clientes. Marinado con especias yucatecas y grillado a la perfección.
+                        </p>
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <span class="price-badge">desde $260</span>
+                            <span style="font-size:.75rem;color:#acad8e;letter-spacing:1px;">MXN</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- wave -->
+    <div style="background:#201315;line-height:0;">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 C480,50 960,0 1440,0 L1440,50 L0,50 Z" fill="#f0e8dd" />
+        </svg>
+    </div>
+
+    <!-- GALERÍa -->
+    <section id="galeria" style="background:#f0e8dd;padding:5rem 1.25rem;">
+        <div class="max-w-6xl mx-auto">
+            <div style="text-align:center;margin-bottom:3rem;" data-aos="fade-up">
+                <span class="section-chip">Nuestros platillos</span>
+                <h2
+                    style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#201315;line-height:1.1;margin-top:.5rem;">
+                    Galería
+                </h2>
+                <div class="divider-bar center"></div>
+            </div>
+
+            <!-- Masonry-style grid -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:1rem;"
+                class="gallery-responsive">
+
+                <div class="gallery-item" style="grid-row:span 2;">
+                    <img src="img/galeria1.jpg" alt="Galería 1">
+                    <div class="g-overlay">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="img/galeria2.jpg" alt="Galería 2">
+                    <div class="g-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg></div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="img/camarones3.jpg" alt="Camarones">
+                    <div class="g-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg></div>
+                </div>
+
+                <div class="gallery-item" style="grid-row:span 2;">
+                    <img src="img/ceviche.jpg" alt="Ceviche">
+                    <div class="g-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg></div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="img/pulpo.jpg" alt="Pulpo">
+                    <div class="g-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg></div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="img/coctel.jpg" alt="Cóctel">
+                    <div class="g-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- wave -->
+    <div style="background:#f0e8dd;line-height:0;">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,25 C360,0 720,50 1080,25 C1260,12 1380,35 1440,25 L1440,50 L0,50 Z" fill="#201315" />
+        </svg>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     UBICACIÓN + HORARIOS
+══════════════════════════════════════ -->
+    <section id="ubicacion" style="background:#201315;padding:5rem 1.25rem;">
+        <div class="max-w-6xl mx-auto">
+
+            <div style="text-align:center;margin-bottom:3rem;" data-aos="fade-up">
+                <span class="section-chip light">Encuéntranos</span>
+                <h2
+                    style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#d6c4ae;margin-top:.5rem;">
+                    Ubicación y Horarios
+                </h2>
+                <div class="divider-bar center" style="background:linear-gradient(to right,#d6c4ae,#3030cd);"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+
+                <!-- Info cards -->
+                <div data-aos="fade-right" style="display:flex;flex-direction:column;gap:1rem;">
+                    <div
+                        style="background:rgba(214,196,174,.07);border:1px solid rgba(214,196,174,.15);border-radius:12px;padding:1.4rem;display:flex;gap:1rem;align-items:flex-start;">
+                        <div
+                            style="width:46px;height:46px;background:#6e4634;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
+                            📍</div>
+                        <div>
+                            <div
+                                style="font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:#acad8e;font-weight:700;margin-bottom:.3rem;">
+                                Dirección</div>
+                            <div style="color:#d6c4ae;font-size:.98rem;line-height:1.6;">C. 62 601-X 27, Pedregales de
+                                Caucel<br>Cd Caucel, 97314 Mérida, Yucatán</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background:rgba(214,196,174,.07);border:1px solid rgba(214,196,174,.15);border-radius:12px;padding:1.4rem;display:flex;gap:1rem;align-items:flex-start;">
+                        <div
+                            style="width:46px;height:46px;background:#3030cd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
+                            🕒</div>
+                        <div>
+                            <div
+                                style="font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:#acad8e;font-weight:700;margin-bottom:.3rem;">
+                                Horario</div>
+                            <div style="color:#d6c4ae;font-size:.98rem;line-height:1.6;">Lunes a Domingo<br>9:00 AM —
+                                11:00 PM</div>
+                            <div style="font-size:.78rem;color:#acad8e;margin-top:.4rem;">El horario puede cambiar en
+                                días festivos.</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background:rgba(214,196,174,.07);border:1px solid rgba(214,196,174,.15);border-radius:12px;padding:1.4rem;display:flex;gap:1rem;align-items:flex-start;">
+                        <div
+                            style="width:46px;height:46px;background:#6e4634;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
+                            📞</div>
+                        <div>
+                            <div
+                                style="font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:#acad8e;font-weight:700;margin-bottom:.3rem;">
+                                Teléfono</div>
+                            <div style="color:#d6c4ae;font-size:.98rem;">999 123 4567</div>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/529999999999"
+                        style="display:inline-flex;align-items:center;gap:.8rem;background:#25D366;color:#fff;padding:1rem 1.8rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:.95rem;margin-top:.5rem;box-shadow:0 4px 20px rgba(37,211,102,.3);transition:transform .2s;"
+                        onmouseover="this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.transform='translateY(0)'">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12c0 2.065.525 4.008 1.449 5.704L0 24l6.456-1.449A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.935 9.935 0 01-5.09-1.399l-.364-.218-3.769.988.988-3.696-.241-.382A9.935 9.935 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z" />
+                        </svg>
+                        Pedir por WhatsApp
+                    </a>
+                </div>
+
+                <!-- MAP — exact location of Muelle 62 -->
+                <div data-aos="fade-left" data-aos-delay="150">
+                    <div class="map-container" style="height:420px;">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.4!2d-89.7085!3d20.9924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5671234567890A%3A0x0!2sMuelle+62+Restaurante+C.62+601-X+27+Pedregales+de+Caucel+Merida!5e0!3m2!1ses!2smx!4v1&q=Muelle+62,+C.+62+601-X+27,+Pedregales+de+Caucel,+97314+M%C3%A9rida,+Yuc."
+                            width="100%" height="100%" style="border:0;display:block;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" title="Ubicación Muelle 62 Mérida">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.google.com/?q=C.+62+601-X+27+Pedregales+de+Caucel+Merida+Yucatan"
+                        target="_blank" rel="noopener"
+                        style="display:inline-flex;align-items:center;gap:.5rem;color:#acad8e;font-size:.8rem;text-decoration:none;margin-top:.9rem;letter-spacing:1px;"
+                        onmouseover="this.style.color='#d6c4ae'" onmouseout="this.style.color='#acad8e'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        Abrir en Google Maps
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- wave -->
+    <div style="background:#201315;line-height:0;">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 C480,50 960,0 1440,0 L1440,50 L0,50 Z" fill="#f0e8dd" />
+        </svg>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     CONTACTO / CTA
+══════════════════════════════════════ -->
+    <section id="contacto" style="background:#f0e8dd;padding:5rem 1.25rem;text-align:center;">
+        <div class="max-w-2xl mx-auto" data-aos="fade-up">
+            <span class="section-chip">¿Listo para venir?</span>
+            <h2
+                style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#201315;margin-top:.5rem;margin-bottom:1rem;">
+                Reserva tu mesa hoy
+            </h2>
+            <div class="divider-bar center"></div>
+            <p style="color:#6e4634;font-size:1.05rem;line-height:1.8;margin-bottom:2.5rem;">
+                Escríbenos por WhatsApp o llámanos para reservar. ¡Te esperamos en Muelle 62!
+            </p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                <a href="tel:9991234567"
+                    style="background:#201315;color:#d6c4ae;padding:.9rem 2rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;letter-spacing:1px;display:inline-flex;align-items:center;gap:.6rem;transition:background .2s;"
+                    onmouseover="this.style.background='#6e4634'" onmouseout="this.style.background='#201315'">
+                    📞 Llamar ahora
+                </a>
+                <a href="https://wa.me/529999999999"
+                    style="background:#25D366;color:#fff;padding:.9rem 2rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;letter-spacing:1px;display:inline-flex;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(37,211,102,.3);transition:transform .2s;"
+                    onmouseover="this.style.transform='translateY(-2px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    💬 WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+    <footer
+        style="background:#201315;color:rgba(214,196,174,.5);text-align:center;padding:2.2rem 1.5rem;border-top:1px solid rgba(214,196,174,.1);">
+        <p
+            style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#d6c4ae;font-weight:700;letter-spacing:2px;margin-bottom:.4rem;">
+            MUELLE 62</p>
+        <p style="font-size:.82rem;">© 2026 Muelle 62 | Restaurante de Mariscos &nbsp;·&nbsp; Mérida, Yucatán</p>
+        <p style="font-size:.75rem;margin-top:.3rem;color:#acad8e;">C. 62 601-X 27, Pedregales de Caucel, Mérida</p>
+    </footer>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/529999999999" class="wa-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.065.525 4.008 1.449 5.704L0 24l6.456-1.449A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.935 9.935 0 01-5.09-1.399l-.364-.218-3.769.988.988-3.696-.241-.382A9.935 9.935 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z" />
+        </svg>
+    </a>
+
+    <!-- gallery responsive style -->
+    <style>
+        @media (max-width: 640px) {
+            .gallery-responsive {
+                grid-template-columns: repeat(2, 1fr) !important;
+                grid-auto-rows: 150px !important;
+            }
+
+            .gallery-responsive .gallery-item[style*="grid-row:span 2"] {
+                grid-row: span 1 !important;
+            }
+        }
+    </style>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true, offset: 60 });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Hamburger
+        const ham = document.getElementById('ham');
+        const mobNav = document.getElementById('mob-nav');
+        ham.addEventListener('click', () => {
+            ham.classList.toggle('open');
+            mobNav.classList.toggle('open');
+        });
+        function closeMob() {
+            ham.classList.remove('open');
+            mobNav.classList.remove('open');
+        }
+    </script>
+</body>
+
+</html>
